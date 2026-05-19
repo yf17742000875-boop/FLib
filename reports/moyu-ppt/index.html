@@ -1,0 +1,751 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>摸鱼是一种组织气候观察 - Deck Title</title>
+  <style>
+    :root {
+      --ink: #1f2a2a;
+      --ink-rgb: 31, 42, 42;
+      --paper: #f4efe3;
+      --paper-rgb: 244, 239, 227;
+      --paper-tint: #e2d7be;
+      --accent: #6f876f;
+      --accent-soft: #9fb29c;
+      --line: rgba(var(--ink-rgb), 0.14);
+      --shadow: 0 20px 50px rgba(23, 28, 25, 0.14);
+      --serif: "Georgia", "Times New Roman", serif;
+      --sans: "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+      --mono: "Cascadia Code", "Consolas", monospace;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html, body {
+      margin: 0;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      background:
+        radial-gradient(circle at 20% 15%, rgba(140, 160, 138, 0.26), transparent 28%),
+        radial-gradient(circle at 80% 25%, rgba(196, 183, 150, 0.34), transparent 24%),
+        linear-gradient(135deg, #f8f5ee 0%, #eee5d6 48%, #e5dccb 100%);
+      color: var(--ink);
+      font-family: var(--sans);
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(255, 255, 255, 0.1) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.08) 1px, transparent 1px);
+      background-size: 32px 32px;
+      opacity: 0.25;
+      pointer-events: none;
+    }
+
+    .frame {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+    }
+
+    .deck {
+      display: flex;
+      width: 100%;
+      height: 100%;
+      transition: transform 520ms cubic-bezier(0.22, 0.8, 0.2, 1);
+    }
+
+    .slide {
+      position: relative;
+      flex: 0 0 100vw;
+      height: 100vh;
+      padding: 5vh 5vw 7vh;
+      display: grid;
+      grid-template-rows: auto 1fr auto;
+      gap: 2.2vh;
+    }
+
+    .slide.light {
+      color: var(--ink);
+    }
+
+    .slide.dark {
+      color: #f1ebde;
+      background:
+        radial-gradient(circle at top right, rgba(181, 188, 139, 0.16), transparent 26%),
+        linear-gradient(160deg, #243130 0%, #18211f 55%, #101716 100%);
+    }
+
+    .slide.hero::after {
+      content: "";
+      position: absolute;
+      right: 4vw;
+      top: 7vh;
+      width: 24vw;
+      height: 24vw;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(255, 255, 255, 0.18), rgba(255, 255, 255, 0.02) 64%, transparent 70%);
+      filter: blur(4px);
+      pointer-events: none;
+    }
+
+    .meta-row,
+    .foot {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+      font-size: 0.9rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+
+    .meta-row {
+      border-top: 1px solid currentColor;
+      padding-top: 14px;
+      opacity: 0.72;
+    }
+
+    .foot {
+      border-bottom: 1px solid currentColor;
+      padding-bottom: 14px;
+      opacity: 0.66;
+    }
+
+    .kicker {
+      font-family: var(--mono);
+      font-size: 0.9rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      opacity: 0.82;
+    }
+
+    .h-hero,
+    .h-xl,
+    .h-md {
+      margin: 0;
+      font-family: var(--serif);
+      font-weight: 700;
+      line-height: 0.96;
+      letter-spacing: -0.03em;
+    }
+
+    .h-hero {
+      font-size: clamp(3.8rem, 7vw, 7rem);
+      max-width: 10ch;
+    }
+
+    .h-xl {
+      font-size: clamp(2.6rem, 4.8vw, 5rem);
+      max-width: 11ch;
+    }
+
+    .h-md {
+      font-size: clamp(1.8rem, 2.8vw, 2.8rem);
+    }
+
+    .lead {
+      max-width: 52rem;
+      font-size: clamp(1.05rem, 1.5vw, 1.35rem);
+      line-height: 1.7;
+      opacity: 0.92;
+    }
+
+    .grid-2-7-5,
+    .grid-2-6-6,
+    .grid-2-8-4,
+    .grid-3,
+    .grid-4 {
+      display: grid;
+      gap: 1.4rem;
+      align-items: start;
+    }
+
+    .grid-2-7-5 {
+      grid-template-columns: 7fr 5fr;
+    }
+
+    .grid-2-6-6 {
+      grid-template-columns: 1fr 1fr;
+    }
+
+    .grid-2-8-4 {
+      grid-template-columns: 8fr 4fr;
+    }
+
+    .grid-3 {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .grid-4 {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+
+    .panel,
+    .stat-card,
+    .quote-card,
+    .callout,
+    .step,
+    .frame-card {
+      border: 1px solid var(--line);
+      border-radius: 22px;
+      background: rgba(255, 251, 243, 0.62);
+      backdrop-filter: blur(10px);
+      box-shadow: var(--shadow);
+    }
+
+    .dark .panel,
+    .dark .stat-card,
+    .dark .quote-card,
+    .dark .callout,
+    .dark .step,
+    .dark .frame-card {
+      background: rgba(244, 239, 227, 0.08);
+      border-color: rgba(255, 250, 240, 0.12);
+      box-shadow: none;
+    }
+
+    .panel {
+      padding: 1.4rem 1.5rem;
+    }
+
+    .stat-card {
+      padding: 1.3rem 1.4rem;
+      min-height: 24vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .stat-label,
+    .img-cap,
+    .callout-src {
+      font-family: var(--mono);
+      font-size: 0.82rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      opacity: 0.76;
+    }
+
+    .stat-nb {
+      font-family: var(--serif);
+      font-size: clamp(2.2rem, 4vw, 4rem);
+      line-height: 1;
+    }
+
+    .stat-note,
+    .step-desc,
+    li {
+      font-size: 1rem;
+      line-height: 1.7;
+    }
+
+    .quote-card {
+      padding: 1.8rem;
+      min-height: 52vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .quote-card blockquote {
+      margin: 0;
+      font-family: var(--serif);
+      font-size: clamp(2rem, 3vw, 3rem);
+      line-height: 1.18;
+    }
+
+    .frame-card {
+      min-height: 52vh;
+      padding: 1.2rem;
+      display: grid;
+      gap: 1rem;
+    }
+
+    .shape {
+      border-radius: 18px;
+      border: 1px solid rgba(var(--ink-rgb), 0.12);
+      min-height: 18vh;
+      background:
+        linear-gradient(150deg, rgba(111, 135, 111, 0.24), rgba(111, 135, 111, 0.03)),
+        linear-gradient(0deg, rgba(255, 255, 255, 0.3), rgba(255, 255, 255, 0.15));
+      position: relative;
+      overflow: hidden;
+    }
+
+    .shape::before,
+    .shape::after {
+      content: "";
+      position: absolute;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.35);
+      filter: blur(2px);
+    }
+
+    .shape::before {
+      width: 58%;
+      height: 22%;
+      left: 8%;
+      top: 14%;
+    }
+
+    .shape::after {
+      width: 44%;
+      height: 18%;
+      right: 10%;
+      bottom: 12%;
+    }
+
+    .callout {
+      padding: 1.3rem 1.4rem;
+    }
+
+    .pipeline {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 1rem;
+    }
+
+    .step {
+      padding: 1.2rem 1.2rem 1.4rem;
+      min-height: 28vh;
+    }
+
+    .step-nb {
+      font-family: var(--mono);
+      font-size: 0.8rem;
+      letter-spacing: 0.18em;
+      opacity: 0.7;
+      margin-bottom: 1.2rem;
+    }
+
+    .step-title {
+      margin: 0 0 0.7rem;
+      font-family: var(--serif);
+      font-size: 1.6rem;
+      line-height: 1.1;
+    }
+
+    ul {
+      margin: 0;
+      padding-left: 1.2rem;
+    }
+
+    .index {
+      position: fixed;
+      right: 24px;
+      bottom: 24px;
+      display: flex;
+      gap: 10px;
+      z-index: 20;
+      align-items: center;
+    }
+
+    .dot {
+      width: 11px;
+      height: 11px;
+      border-radius: 50%;
+      border: 1px solid rgba(var(--ink-rgb), 0.28);
+      background: transparent;
+      cursor: pointer;
+      padding: 0;
+    }
+
+    .dot.active {
+      background: var(--ink);
+    }
+
+    .dark .dot {
+      border-color: rgba(255, 255, 255, 0.42);
+    }
+
+    .dark .dot.active {
+      background: #f1ebde;
+    }
+
+    .nav {
+      position: fixed;
+      left: 24px;
+      bottom: 24px;
+      z-index: 20;
+      display: flex;
+      gap: 10px;
+    }
+
+    .nav button {
+      border: 1px solid var(--line);
+      background: rgba(255, 251, 243, 0.8);
+      color: var(--ink);
+      padding: 0.75rem 1rem;
+      border-radius: 999px;
+      font: inherit;
+      cursor: pointer;
+    }
+
+    @media (max-width: 980px) {
+      .slide {
+        padding: 4vh 5vw 8vh;
+      }
+
+      .grid-2-7-5,
+      .grid-2-6-6,
+      .grid-2-8-4,
+      .grid-3,
+      .grid-4,
+      .pipeline {
+        grid-template-columns: 1fr;
+      }
+
+      .quote-card,
+      .frame-card {
+        min-height: auto;
+      }
+
+      .stat-card,
+      .step {
+        min-height: auto;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="frame">
+    <main id="deck" class="deck">
+      <section class="slide hero dark">
+        <div class="foot">
+          <span>Magazine Web Ppt</span>
+          <span>01 / 08</span>
+        </div>
+        <div>
+          <div class="kicker">Workplace Field Notes</div>
+          <h1 class="h-hero">摸鱼是一种组织气候观察</h1>
+          <p class="lead">
+            这不是一份教你偷懒的 PPT，而是一份关于现代办公室节奏、注意力稀缺和体面休息的观察报告。
+            如果团队长期靠意志力冲刺，摸鱼不会消失，它只会换个名字出现。
+          </p>
+        </div>
+        <div class="meta-row">
+          <span>电子杂志 × 电子墨水</span>
+          <span>Fan Yang Lab Edition</span>
+        </div>
+      </section>
+
+      <section class="slide light">
+        <div class="foot">
+          <span>Context</span>
+          <span>02 / 08</span>
+        </div>
+        <div class="grid-2-7-5">
+          <div class="quote-card">
+            <div class="kicker">A better framing</div>
+            <blockquote>“摸鱼”常常不是对工作的反抗，而是对失控节奏的一次微小自救。</blockquote>
+            <div class="callout-src">Observation / Office Ecology</div>
+          </div>
+          <div class="panel">
+            <h2 class="h-md">为什么这个题目值得讲</h2>
+            <p class="lead">
+              在很多团队里，效率讨论只看产出，不看注意力的恢复机制。于是大家表面在线，实际分散；表面很忙，实则在碎片化地流失精力。
+            </p>
+            <ul>
+              <li>摸鱼是注意力负债的症状，不是根因。</li>
+              <li>高压和空转同时存在时，最容易出现“假忙碌”。</li>
+              <li>组织真正需要优化的，是节奏设计，而不是道德审判。</li>
+            </ul>
+          </div>
+        </div>
+        <div class="meta-row">
+          <span>从偷懒叙事</span>
+          <span>切到系统叙事</span>
+        </div>
+      </section>
+
+      <section class="slide dark">
+        <div class="foot">
+          <span>Data Poster</span>
+          <span>03 / 08</span>
+        </div>
+        <div>
+          <div class="kicker">Hard numbers, soft truth</div>
+          <h2 class="h-xl">你以为大家在工作，实际上大家在切标签页</h2>
+        </div>
+        <div class="grid-4">
+          <article class="stat-card">
+            <div class="stat-label">Slack Window</div>
+            <div class="stat-nb">7s</div>
+            <div class="stat-note">平均专注间隔被消息打断到接近“呼吸级”切换。</div>
+          </article>
+          <article class="stat-card">
+            <div class="stat-label">Meeting Overflow</div>
+            <div class="stat-nb">38%</div>
+            <div class="stat-note">本来能写完的事，被同步成本吞掉了一大块。</div>
+          </article>
+          <article class="stat-card">
+            <div class="stat-label">Pseudo Presence</div>
+            <div class="stat-nb">11h</div>
+            <div class="stat-note">在线时长越来越长，不等于有效工作越来越多。</div>
+          </article>
+          <article class="stat-card">
+            <div class="stat-label">Moyu Burst</div>
+            <div class="stat-nb">15m</div>
+            <div class="stat-note">一段有意识的休息，往往比一小时心不在焉更诚实。</div>
+          </article>
+        </div>
+        <div class="meta-row">
+          <span>Numbers are illustrative</span>
+          <span>but the pattern is real</span>
+        </div>
+      </section>
+
+      <section class="slide hero light">
+        <div class="foot">
+          <span>Scene Types</span>
+          <span>04 / 08</span>
+        </div>
+        <div>
+          <div class="kicker">Four species</div>
+          <h2 class="h-xl">办公室摸鱼，不是一种，是四种</h2>
+        </div>
+        <div class="pipeline">
+          <article class="step">
+            <div class="step-nb">Type 01</div>
+            <h3 class="step-title">回血型</h3>
+            <p class="step-desc">做完一段高负荷任务后短暂发呆、刷窗外、接杯水，让认知栈清空。</p>
+          </article>
+          <article class="step">
+            <div class="step-nb">Type 02</div>
+            <h3 class="step-title">逃逸型</h3>
+            <p class="step-desc">任务模糊、反馈稀薄，于是人自动漂向最轻松、最即时满足的页面。</p>
+          </article>
+          <article class="step">
+            <div class="step-nb">Type 03</div>
+            <h3 class="step-title">表演型</h3>
+            <p class="step-desc">看起来一直在线，实则用存在感代替进展，用消息响应代替真正推进。</p>
+          </article>
+          <article class="step">
+            <div class="step-nb">Type 04</div>
+            <h3 class="step-title">学习型</h3>
+            <p class="step-desc">去看一点和手头工作若即若离的东西，表面偏航，实际上在补长期带宽。</p>
+          </article>
+        </div>
+        <div class="meta-row">
+          <span>不要一概而论</span>
+          <span>先分型再判断</span>
+        </div>
+      </section>
+
+      <section class="slide light">
+        <div class="foot">
+          <span>Before / After</span>
+          <span>05 / 08</span>
+        </div>
+        <div class="grid-2-6-6">
+          <div class="panel">
+            <div class="kicker">旧叙事</div>
+            <h2 class="h-md">摸鱼 = 人不行</h2>
+            <ul>
+              <li>默认问题出在个人态度。</li>
+              <li>通过更严的在线监管解决焦虑。</li>
+              <li>让所有空白时间都显得可疑。</li>
+              <li>结果是更重的表演，更轻的创造。</li>
+            </ul>
+          </div>
+          <div class="panel">
+            <div class="kicker">新叙事</div>
+            <h2 class="h-md">摸鱼 = 系统在求助</h2>
+            <ul>
+              <li>先看任务定义、会议密度和反馈周期。</li>
+              <li>把休息显性化，而不是把偷闲地下化。</li>
+              <li>允许短暂离线，换取更长时间的深度推进。</li>
+              <li>结果是更少假忙碌，更高质量的专注。</li>
+            </ul>
+          </div>
+        </div>
+        <div class="meta-row">
+          <span>Moral lens</span>
+          <span>to system lens</span>
+        </div>
+      </section>
+
+      <section class="slide dark">
+        <div class="foot">
+          <span>Lead Image + Side Text</span>
+          <span>06 / 08</span>
+        </div>
+        <div class="grid-2-8-4">
+          <div class="frame-card">
+            <div class="shape" style="min-height: 28vh;"></div>
+            <div class="shape" style="min-height: 22vh;"></div>
+            <div class="img-cap">Placeholder visual: coffee, rain, muted tabs, low-frequency ambition</div>
+          </div>
+          <div class="callout">
+            <div class="kicker">Visual note</div>
+            <h2 class="h-md">理想的摸鱼，不喧哗</h2>
+            <p class="lead" style="font-size:1rem;">
+              它不是在工位上大张旗鼓地逃避工作，而是在高度机械化的节奏里，给自己偷回一点感知。
+              一杯咖啡，一段慢读，几分钟窗边站立，本质上都在帮人恢复判断力。
+            </p>
+            <div class="callout-src">Quiet, not noisy</div>
+          </div>
+        </div>
+        <div class="meta-row">
+          <span>Magazine mood board</span>
+          <span>No external images required</span>
+        </div>
+      </section>
+
+      <section class="slide hero light">
+        <div class="foot">
+          <span>Workflow</span>
+          <span>07 / 08</span>
+        </div>
+        <div>
+          <div class="kicker">Practical protocol</div>
+          <h2 class="h-xl">把摸鱼升级成“低摩擦恢复机制”</h2>
+        </div>
+        <div class="pipeline">
+          <article class="step">
+            <div class="step-nb">01</div>
+            <h3 class="step-title">设窗口</h3>
+            <p class="step-desc">允许自己每完成一段深度任务后离开 10-15 分钟，而不是随机碎掉一整天。</p>
+          </article>
+          <article class="step">
+            <div class="step-nb">02</div>
+            <h3 class="step-title">降噪音</h3>
+            <p class="step-desc">把最容易制造假在线的通知、群聊和悬浮提示关掉一层。</p>
+          </article>
+          <article class="step">
+            <div class="step-nb">03</div>
+            <h3 class="step-title">记产出</h3>
+            <p class="step-desc">用可交付结果衡量今天，而不是用“坐了多久、亮了多久”衡量。</p>
+          </article>
+          <article class="step">
+            <div class="step-nb">04</div>
+            <h3 class="step-title">留余地</h3>
+            <p class="step-desc">真正可持续的团队，日程里总会有一点空白，不把每分钟都榨干。</p>
+          </article>
+        </div>
+        <div class="meta-row">
+          <span>Not slacking</span>
+          <span>but recovery by design</span>
+        </div>
+      </section>
+
+      <section class="slide hero dark">
+        <div class="foot">
+          <span>Takeaway</span>
+          <span>08 / 08</span>
+        </div>
+        <div>
+          <div class="kicker">Final line</div>
+          <h2 class="h-hero">最成熟的团队，不会消灭摸鱼。<br>它会让人不必偷偷摸鱼。</h2>
+          <p class="lead">
+            当恢复被制度化，专注才有可能被长期维持。与其把所有停顿都视为失败，不如把节奏设计成一种生产力基础设施。
+          </p>
+        </div>
+        <div class="meta-row">
+          <span>Left / Right / Wheel / Touch</span>
+          <span>Esc for first slide</span>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <div class="nav">
+    <button type="button" id="prevBtn">Prev</button>
+    <button type="button" id="nextBtn">Next</button>
+  </div>
+
+  <div class="index" id="index"></div>
+
+  <script>
+    const deck = document.getElementById("deck");
+    const slides = Array.from(document.querySelectorAll(".slide"));
+    const dotsRoot = document.getElementById("index");
+    const prevBtn = document.getElementById("prevBtn");
+    const nextBtn = document.getElementById("nextBtn");
+    let current = 0;
+    let wheelLock = false;
+    let touchStartX = 0;
+
+    function renderDots() {
+      slides.forEach((_, idx) => {
+        const dot = document.createElement("button");
+        dot.type = "button";
+        dot.className = "dot";
+        dot.setAttribute("aria-label", "Go to slide " + (idx + 1));
+        dot.addEventListener("click", () => goTo(idx));
+        dotsRoot.appendChild(dot);
+      });
+    }
+
+    function sync() {
+      deck.style.transform = `translateX(-${current * 100}vw)`;
+      dotsRoot.querySelectorAll(".dot").forEach((dot, idx) => {
+        dot.classList.toggle("active", idx === current);
+      });
+      prevBtn.disabled = current === 0;
+      nextBtn.disabled = current === slides.length - 1;
+    }
+
+    function goTo(index) {
+      current = Math.max(0, Math.min(slides.length - 1, index));
+      sync();
+    }
+
+    prevBtn.addEventListener("click", () => goTo(current - 1));
+    nextBtn.addEventListener("click", () => goTo(current + 1));
+
+    window.addEventListener("keydown", (event) => {
+      if (event.key === "ArrowRight" || event.key === "PageDown") {
+        goTo(current + 1);
+      } else if (event.key === "ArrowLeft" || event.key === "PageUp") {
+        goTo(current - 1);
+      } else if (event.key === "Escape") {
+        goTo(0);
+      }
+    });
+
+    window.addEventListener("wheel", (event) => {
+      if (wheelLock || Math.abs(event.deltaY) < 20) {
+        return;
+      }
+      wheelLock = true;
+      if (event.deltaY > 0) {
+        goTo(current + 1);
+      } else {
+        goTo(current - 1);
+      }
+      window.setTimeout(() => {
+        wheelLock = false;
+      }, 420);
+    }, { passive: true });
+
+    window.addEventListener("touchstart", (event) => {
+      touchStartX = event.touches[0].clientX;
+    }, { passive: true });
+
+    window.addEventListener("touchend", (event) => {
+      const delta = event.changedTouches[0].clientX - touchStartX;
+      if (Math.abs(delta) < 40) {
+        return;
+      }
+      if (delta < 0) {
+        goTo(current + 1);
+      } else {
+        goTo(current - 1);
+      }
+    }, { passive: true });
+
+    renderDots();
+    sync();
+  </script>
+</body>
+</html>

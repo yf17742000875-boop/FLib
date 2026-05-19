@@ -1,0 +1,5 @@
+image_path,material,process,sample_id,group_id,split,bbox
+images/part001_view1.png,aluminum_alloy,polished,part001_view1,part001,train,"40,30,420,380"
+images/part002_view1.png,brass,sandblasted,part002_view1,part002,val,"35,28,410,375"
+images/part003_view1.png,titanium_alloy,machined,part003_view1,part003,test,"42,33,418,382"
+

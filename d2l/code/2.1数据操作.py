@@ -1,3 +1,4 @@
+# 注意：torch 需要单独安装，使用 pip install torch 进行安装
 import torch
 '''深度学习存储和操作数据的主要接口是张量（n维数组）。它提供了各种功能，包括基本数学运算、广播、索引、切片、内存节省和转换其他Python对象。'''
 
@@ -28,8 +29,8 @@ print("torch.cat((x, y), dim=1):", torch.cat((x, y), dim=1))
 print("x == y:", x == y)
 print("x.sum():", x.sum())
 
-a = torch.arange(9).reshape(3, )
-b = torch.arange(2).reshape(1, 2)
+a = torch.arange(9).reshape(3, 3)
+b = torch.arange(3).reshape(1, 3)
 print("a:", a)
 print("b:", b)
 print("a + b:", a + b)
@@ -62,4 +63,3 @@ print("type(b):", type(b))
 
 a = torch.tensor([3.5])
 print("a, a.item(), float(a), int(a):", a, a.item(), float(a), int(a))
-'''

@@ -1,6 +1,6 @@
 import os
-import pandas as pd
 import torch
+import pandas as pd
 
 # 创建一个用于示例的小数据集文件。
 os.makedirs(os.path.join('.', 'data'), exist_ok=True)
