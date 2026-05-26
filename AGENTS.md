@@ -81,6 +81,49 @@ Examples of useful connections:
 - optimization -> learning rate schedules, warmup, weight decay, gradient clipping
 - computer vision chapters -> detection, segmentation, pose estimation, representation learning
 
+## D2L Knowledge Base Workflow
+
+When creating or updating D2L study material, use a section-first knowledge base structure. A D2L section usually corresponds to one D2L web page, one focused note, and optionally one minimal runnable script.
+
+Default locations:
+
+- Section notes: `notes/d2l/chXX/{section-id}-{slug}.md`
+- Classroom or direct-follow code: `d2l/code/`
+- Extended experiments and ablations: `experiments/d2l/chXX/`
+- Chapter reviews: `reports/d2l/chXX-review.md`
+
+Use ASCII filenames for new notes, experiments, and reports. Chinese prose is fine inside files. This avoids shell and encoding problems on Windows while keeping the learning content readable.
+
+Do not move or rename existing D2L files only to enforce this structure. Apply it to new material and to files the user explicitly asks to reorganize.
+
+Each D2L section note should include these blocks unless the section clearly makes one irrelevant:
+
+1. `一句话总结`
+2. `本节解决的问题`
+3. `核心概念 / 公式 / API`
+4. `输入输出形状`
+5. `最小可运行代码`
+6. `课后练习`
+7. `易错点`
+8. `和前后章节或真实项目的连接`
+9. `复习卡片`
+
+Choose the note emphasis by article type:
+
+| D2L article type | Examples | Main knowledge artifact | Review focus |
+| --- | --- | --- | --- |
+| Math / tensor basics | data manipulation, linear algebra, calculus, probability | concept note + API cheatsheet | shape, dtype, broadcasting, gradient meaning |
+| Model theory | linear regression, softmax, MLP, convolution | formula derivation + from-scratch explanation | inputs, outputs, losses, gradients, assumptions |
+| Data pipeline | Fashion-MNIST, sequence data | dataset card + loader code | batch, shuffle, transform, `num_workers` |
+| From-scratch implementation | softmax from scratch, MLP from scratch | runnable script + manual component notes | initialization, training loop, evaluation |
+| Concise framework implementation | PyTorch concise implementations | manual-to-framework mapping | `nn.Module`, loss, optimizer, `DataLoader` |
+| Optimization / regularization | weight decay, dropout, optimization algorithms | experiment card + comparison table | hyperparameter effects, symptoms, failure modes |
+| Network architecture | LeNet, AlexNet, ResNet, RNN, attention | module card + shape trace | layer structure, receptive field, residuals, attention |
+| Engineering computation | GPU, multi-GPU, model construction | debugging runbook | device, memory, speed, reproducibility |
+| Project connection | DINOv3, FoundationPose, other practical repos | bridge note | where the D2L concept appears in real systems |
+
+For review support, prefer short active-recall questions over long summaries. A good review card has a concrete prompt, a compact answer, and when useful, a tiny code or shape example.
+
 ## AI Component Development Template Framework
 
 This section defines a standardized template framework for developing various AI components, including neural networks, optimization algorithms, probabilistic models, automatic differentiation systems, and more.

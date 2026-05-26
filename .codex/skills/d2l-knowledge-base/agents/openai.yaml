@@ -1,0 +1,4 @@
+interface:
+  display_name: "D2L Knowledge Base"
+  short_description: "Organize D2L notes and reviews"
+  default_prompt: "Build or update D2L knowledge-base notes for this repository."
