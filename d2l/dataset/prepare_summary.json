@@ -1,0 +1,111 @@
+{
+  "source": "D:\\Work\\ML\\dinov3\\inputs",
+  "target": "D:\\Work\\ML\\dinov3\\outputs\\dataset",
+  "material_classes": [
+    "Aluminum",
+    "Copper"
+  ],
+  "process_classes": [
+    "Cross",
+    "Cube"
+  ],
+  "coverage": {
+    "Aluminum__Cross": 201,
+    "Aluminum__Cube": 201,
+    "Copper__Cross": 201,
+    "Copper__Cube": 201
+  },
+  "shared_images": 804,
+  "only_material": 0,
+  "only_process": 0,
+  "refs_count": 16,
+  "refs_breakdown": [
+    {
+      "file": "img_00001.png",
+      "material": "Aluminum",
+      "process": "Cross"
+    },
+    {
+      "file": "img_00005.png",
+      "material": "Aluminum",
+      "process": "Cross"
+    },
+    {
+      "file": "img_00006.png",
+      "material": "Aluminum",
+      "process": "Cross"
+    },
+    {
+      "file": "img_00010.png",
+      "material": "Aluminum",
+      "process": "Cross"
+    },
+    {
+      "file": "img_00002.png",
+      "material": "Aluminum",
+      "process": "Cube"
+    },
+    {
+      "file": "img_00009.png",
+      "material": "Aluminum",
+      "process": "Cube"
+    },
+    {
+      "file": "img_00016.png",
+      "material": "Aluminum",
+      "process": "Cube"
+    },
+    {
+      "file": "img_00020.png",
+      "material": "Aluminum",
+      "process": "Cube"
+    },
+    {
+      "file": "img_00003.png",
+      "material": "Copper",
+      "process": "Cross"
+    },
+    {
+      "file": "img_00011.png",
+      "material": "Copper",
+      "process": "Cross"
+    },
+    {
+      "file": "img_00014.png",
+      "material": "Copper",
+      "process": "Cross"
+    },
+    {
+      "file": "img_00015.png",
+      "material": "Copper",
+      "process": "Cross"
+    },
+    {
+      "file": "img_00000.png",
+      "material": "Copper",
+      "process": "Cube"
+    },
+    {
+      "file": "img_00004.png",
+      "material": "Copper",
+      "process": "Cube"
+    },
+    {
+      "file": "img_00007.png",
+      "material": "Copper",
+      "process": "Cube"
+    },
+    {
+      "file": "img_00008.png",
+      "material": "Copper",
+      "process": "Cube"
+    }
+  ],
+  "tests": [
+    "aluminum_cross_test.png",
+    "aluminum_cube_test.png",
+    "copper_cross_test.png",
+    "copper_cube_test.png"
+  ],
+  "empty_combinations": []
+}
