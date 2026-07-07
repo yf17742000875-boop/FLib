@@ -119,5 +119,3 @@ repeated_net = build_repeated_net(
     lambda: nn.Sequential(nn.Linear(20, 20), nn.ReLU()),
     num_instances=3
 )
-print("重复块网络结构:\n", repeated_net)
-print("重复块网络输出形状:", repeated_net(X).shape)  # torch.Size([2, 20])
